@@ -10,13 +10,12 @@ export class JobStatusDto {
   videoId: string;
   userId: string;
   status: ProcessingStatus;
-  framesExtracted: number | null;
+  framesExtracted: string | null;
   outputStorageKey: string | null;
   errorMessage: string | null;
-  createdAt: Date;
+  createdAt: Date | null;
   startedAt: Date | null;
   completedAt: Date | null;
-  updatedAt: Date;
   downloadUrl?: string | null;
 }
 
@@ -31,9 +30,9 @@ export class UnsubscribeFromJobDto {
 export class StatusUpdateEvent {
   jobId: string;
   status: ProcessingStatus;
-  framesExtracted: number | null;
+  framesExtracted: string | null;
   outputStorageKey: string | null;
   errorMessage: string | null;
-  updatedAt: Date;
+  completedAt: Date | null;
   downloadUrl?: string | null;
 }

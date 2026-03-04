@@ -135,7 +135,7 @@ export class StatusService {
           framesExtracted: job.framesExtracted,
           outputStorageKey: job.outputStorageKey,
           errorMessage: job.errorMessage,
-          updatedAt: job.updatedAt,
+          completedAt: job.completedAt,
           downloadUrl,
         });
       }
@@ -166,7 +166,6 @@ export class StatusService {
       createdAt: job.createdAt,
       startedAt: job.startedAt,
       completedAt: job.completedAt,
-      updatedAt: job.updatedAt,
       downloadUrl,
     };
   }

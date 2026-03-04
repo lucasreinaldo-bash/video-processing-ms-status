@@ -145,7 +145,9 @@ export class StatusGateway implements OnGatewayInit, OnGatewayConnection, OnGate
           const socketIds = this.statusService.getSubscribedSocketIds(update.jobId);
 
           for (const socketId of socketIds) {
-            const socket = this.server.sockets.sockets.get(socketId);
+            // Use fetchSockets for namespace compatibility
+            const sockets = await this.server.fetchSockets();
+            const socket = sockets.find((s) => s.id === socketId);
             if (socket) {
               socket.emit('statusUpdate', update);
               this.logger.debug(`Sent update for job ${update.jobId} to socket ${socketId}`);

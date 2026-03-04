@@ -24,13 +24,12 @@ model ProcessingJob {
   userId           String           @map("user_id")
   storageKey       String           @map("storage_key")
   status           ProcessingStatus @default(PENDING)
-  framesExtracted  Int?             @map("frames_extracted")
+  framesExtracted  String?          @map("frames_extracted")
   outputStorageKey String?          @map("output_storage_key")
   errorMessage     String?          @map("error_message")
-  createdAt        DateTime         @default(now()) @map("created_at")
+  createdAt        DateTime?        @map("created_at")
   startedAt        DateTime?        @map("started_at")
   completedAt      DateTime?        @map("completed_at")
-  updatedAt        DateTime?        @map("updated_at")
 
   @@map("processing_jobs")
 }
