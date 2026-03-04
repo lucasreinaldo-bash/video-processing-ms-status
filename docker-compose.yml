@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  ms-status:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: video-processing-ms-status
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+      - PORT=3003
+      - DATABASE_URL=postgresql://postgres:postgres123@postgres:5432/video_processing_processor
+      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin123
+      - MINIO_BUCKET_PROCESSED=processed-zips
+      - CORS_ORIGIN=http://localhost:3000
+    networks:
+      - video-processing-network
+    depends_on:
+      - postgres
+      - minio
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3003/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  video-processing-network:
+    external: true
+    name: video-processing-infrastructure_video-processing-network

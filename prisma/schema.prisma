@@ -1,0 +1,36 @@
+// Prisma schema for MS-Status
+// Connects to the same processor database to read job status
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// Read-only view of ProcessingJob from MS-Processor
+model ProcessingJob {
+  id               String           @id
+  videoId          String           @map("video_id")
+  userId           String           @map("user_id")
+  storageKey       String           @map("storage_key")
+  status           ProcessingStatus @default(PENDING)
+  framesExtracted  Int?             @map("frames_extracted")
+  outputStorageKey String?          @map("output_storage_key")
+  errorMessage     String?          @map("error_message")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  startedAt        DateTime?        @map("started_at")
+  completedAt      DateTime?        @map("completed_at")
+  updatedAt        DateTime?        @map("updated_at")
+
+  @@map("processing_jobs")
+}
